@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.Timer;
 /**
  * I deleted this comment because Ariel had too much stuff about communism here.
  * NOTE: AUTONOMOUS METHODS CALL THEIR RESPECTIVE TELEOPERATIONAL COUNTERPARTS.
+ * NOTE2: This class can also be used to change PID because all algorithm-based
+ * items are in the ratePID() method
  */
 public class Robot extends IterativeRobot {
 
@@ -98,33 +100,31 @@ public class Robot extends IterativeRobot {
      */
     public void testInit() {
 	pidTesting = new double[50][7]; // 50 is a random value
-						    // Array > ArrayList because it is so much simpler
-	
+	// Array > ArrayList because it is so much simpler
+
 	/*
-	pidTesting values:
-	0   1	2   3		    4			    5		    6
-	P   I	D   AccuracyScore   TimeOscillationScore    CurrentScore    OverallScore    
-	*/
-	
+	 pidTesting values:
+	 0   1	2   3		    4			    5		    6
+	 P   I	D   AccuracyScore   TimeOscillationScore    CurrentScore    OverallScore    
+	 */
 	pidValues = new double[50][3];
-	for(i = 0; i < 50; i++) {
+	for (i = 0; i < 50; i++) {
 	    pidValues[i][0] = -Math.random();
 	    pidValues[i][1] = -Math.random();
 	    pidValues[i][2] = -Math.random();
 	}
-	
+
 	i = 0;
     }
 
     public void testPeriodic() {
-	if(!PIDRater.getValueDone) {
+	if (!PIDRater.getValueDone) {
 	    pVal = pidValues[i][0];
 	    iVal = pidValues[i][1];
 	    dVal = pidValues[i][2];
 	    teleopPeriodic();
 	    ratePID();
-	}
-	else {
+	} else {
 	    pidTesting[i][0] = pid.getP();
 	    pidTesting[i][1] = pid.getI();
 	    pidTesting[i][2] = pid.getD();
@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 	    pidTesting[i][4] = PIDRater.timeOscillationScore;
 	    pidTesting[i][5] = PIDRater.currentScore;
 	    pidTesting[i][6] = PIDRater.overallScore;
-	    
+
 	    pid.setPID(pVal, iVal, dVal);
 	    teleopInit();
 	    PIDRater.getValueDone = false;
@@ -268,7 +268,7 @@ public class Robot extends IterativeRobot {
 	Timer.wait(Integer.MAX_VALUE); // This will purposefully hang the thread
     }
 
-    public static void ratePID() {
+    public static void ratePID() { // All PID algorithms called here
 	time.start();
 	PIDRater.checkStop();
 	PIDRater.getValues();
