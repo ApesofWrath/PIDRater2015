@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 	if (!pid.isEnable()) { // disable() will automatically enable PID after 8 seconds
 	    disable();
 	} else if (go == false) {
-	    Timer.wait(Integer.MAX_VALUE); // Purposeful thread hanging
+	    Timer.delay(Long.MAX_VALUE); // Purposeful thread hanging
 	} else {
 	    checkFlip();
 	    printDashboard();
@@ -265,7 +265,7 @@ public class Robot extends IterativeRobot {
 
     public static void noGo() {
 	go = false;
-	Timer.wait(Integer.MAX_VALUE); // This will purposefully hang the thread
+	Timer.delay(Double.MAX_VALUE); // This will purposefully hang the thread
     }
 
     public static void ratePID() { // All PID algorithms called here
